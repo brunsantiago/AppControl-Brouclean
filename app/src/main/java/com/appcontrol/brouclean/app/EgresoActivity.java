@@ -446,7 +446,8 @@ public class EgresoActivity extends AppCompatActivity implements ResultListener<
         String horaEgresoParametrizado = HoraRegistrada.egresoParametrizado(egresoPuesto,fechaPuesto,horaEgreso,fechaEgreso,turnoNoche);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String URL = Configurador.API_PATH + "brouclean/asig_brouclean/"+asigId;
+//        String URL = Configurador.API_PATH + "brouclean/asig_brouclean/"+asigId;
+        String URL = Configurador.API_PATH + "asigvigi/"+asigId;
         JSONObject jsonBody = new JSONObject();
 
         try {
@@ -543,7 +544,8 @@ public class EgresoActivity extends AppCompatActivity implements ResultListener<
     private void cerrarEstadoSesion(int persCodi){
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String URL = Configurador.API_PATH + "brouclean/last_session/"+persCodi;
+//        String URL = Configurador.API_PATH + "brouclean/last_session/"+persCodi;
+        String URL = Configurador.API_PATH + "last_session/"+persCodi+"/"+Configurador.ID_EMPRESA;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, URL, null, new Response.Listener<JSONObject>() {
             @Override
@@ -908,7 +910,8 @@ public class EgresoActivity extends AppCompatActivity implements ResultListener<
         String persCodi = prefs.getString(PERS_CODI,"");
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String mJSONURLString = Configurador.API_PATH + "brouclean/last_session/"+persCodi;
+//        String mJSONURLString = Configurador.API_PATH + "brouclean/last_session/"+persCodi;
+        String mJSONURLString = Configurador.API_PATH + "last_session/"+persCodi+"/"+Configurador.ID_EMPRESA;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,

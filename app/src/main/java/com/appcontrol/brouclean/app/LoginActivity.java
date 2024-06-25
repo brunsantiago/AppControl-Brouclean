@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
         myAlert = null;
 
-        textViewVersion.setText("Version "+versionNameApp);
+        textViewVersion.setText("Version Release Test "+versionNameApp);
 
         botonIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +158,8 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String mJSONURLString = Configurador.API_PATH + "brouclean/personal/"+nroLegajo;
+//        String mJSONURLString = Configurador.API_PATH + "brouclean/personal/"+nroLegajo;
+        String mJSONURLString = Configurador.API_PATH + "personal/"+nroLegajo+"/"+Configurador.ID_EMPRESA;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 mJSONURLString,
@@ -216,7 +217,8 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String mJSONURLString = Configurador.API_PATH + "brouclean/users/"+persCodi;
+//        String mJSONURLString = Configurador.API_PATH + "brouclean/users/"+persCodi;
+        String mJSONURLString = Configurador.API_PATH + "users/"+persCodi+"/"+Configurador.ID_EMPRESA;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 mJSONURLString,
@@ -252,7 +254,8 @@ public class LoginActivity extends AppCompatActivity {
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String URL = Configurador.API_PATH + "brouclean/login";
+            //String URL = Configurador.API_PATH + "brouclean/login";
+            String URL = Configurador.API_PATH + "login/"+Configurador.ID_EMPRESA;
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("user_lega", nroLegajo);
             jsonBody.put("user_pass", clave);
@@ -323,35 +326,31 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loadDevice(){
-
-        // SE PODRIA OPTIMIZAR FORMULA BUSCANDO SOLO EL DISPOSITIVO Y NO TODOS LOS DISPOSITIVOS
-
         String idAndroid = getAndroidID();
-
         if(idAndroid!=null){
+            //TODO Se optimizo la solicitud de busqueda
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String url = Configurador.API_PATH + "brouclean/devices";
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    if (response != null) {
-                        JSONArray devicesJSONArray = response;
-                        String nombreCliente = null;
-                        String nombreObjetivo = null;
-                        boolean disabledDevice = false;
-                        for (int i = 0; i < devicesJSONArray.length(); i++) {
-                            try {
-                                JSONObject jsonObject = devicesJSONArray.getJSONObject(i);
-                                if (jsonObject.getString("DEVI_ANID").equals(idAndroid)) {
-
-                                    if (jsonObject.getString("DEVI_ESTA").equals("ACTIVO")) {
-                                        nombreCliente = jsonObject.getString("DEVI_NCLI");
-                                        nombreObjetivo = jsonObject.getString("DEVI_NOBJ");
-                                        String idCliente = jsonObject.getString("DEVI_CCLI");
-                                        String idObjetivo = jsonObject.getString("DEVI_COBJ");
-                                        int ubicacion = jsonObject.getInt("DEVI_UBIC");
-                                        String mapCoordenada = jsonObject.getString("DEVI_COOR");
-                                        int mapRadio = jsonObject.getInt("DEVI_RADI");
+            String mJSONURLString = Configurador.API_PATH + "devices/"+idAndroid+"/"+Configurador.ID_EMPRESA;
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.GET,
+                    mJSONURLString,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            if (response != null) {
+                                String nombreCliente = null;
+                                String nombreObjetivo = null;
+                                boolean disabledDevice = false;
+                                try {
+                                    if (response.getString("DEVI_ESTA").equals("ACTIVO")) {
+                                        nombreCliente = response.getString("DEVI_NCLI");
+                                        nombreObjetivo = response.getString("DEVI_NOBJ");
+                                        String idCliente = response.getString("DEVI_CCLI");
+                                        String idObjetivo = response.getString("DEVI_COBJ");
+                                        int ubicacion = response.getInt("DEVI_UBIC");
+                                        String mapCoordenada = response.getString("DEVI_COOR");
+                                        int mapRadio = response.getInt("DEVI_RADI");
 
                                         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
 
@@ -369,32 +368,31 @@ public class LoginActivity extends AppCompatActivity {
                                     }else{
                                         disabledDevice = true;
                                     }
+                                } catch (JSONException e) {
+                                    loadLoginActivity();
                                 }
-                            } catch (JSONException e) {
-                                loadLoginActivity();
-                            }
-                        }
-                        if(nombreCliente==null || nombreObjetivo==null){
-                            if(!disabledDevice){
-                                loadLoginActivity();
+                                if(nombreCliente==null || nombreObjetivo==null){
+                                    if(!disabledDevice){
+                                        loadLoginActivity();
+                                    }else{
+                                        resetFormLogin();
+                                        progressDialog.dismiss();
+                                        showDeviceErrorAlert();
+                                    }
+                                }
                             }else{
-                                resetFormLogin();
-                                progressDialog.dismiss();
-                                showDeviceErrorAlert();
+                                loadLoginActivity();
                             }
                         }
-                        //progressDialog.dismiss();
-                    }else{
-                        loadLoginActivity();
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error){
+                            loadLoginActivity();
+                        }
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    loadLoginActivity();
-                }
-            });
-            requestQueue.add(jsonArrayRequest);
+            );
+            requestQueue.add(jsonObjectRequest);
         }else{
             loadLoginActivity();
         }
@@ -503,7 +501,8 @@ public class LoginActivity extends AppCompatActivity {
     private void checkForUpdates(){
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String mJSONURLString = Configurador.API_PATH + "brouclean/app_version/last_version";
+        //String mJSONURLString = Configurador.API_PATH + "brouclean/app_version/last_version";
+        String mJSONURLString = Configurador.API_PATH + "app_version/last_version/"+Configurador.ID_EMPRESA;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 mJSONURLString,

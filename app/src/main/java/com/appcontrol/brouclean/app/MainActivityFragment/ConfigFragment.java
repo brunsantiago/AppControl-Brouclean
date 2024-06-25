@@ -309,7 +309,8 @@ public class ConfigFragment extends Fragment implements AdapterView.OnItemSelect
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            String URL = Configurador.API_PATH + "brouclean/request_device";
+//            String URL = Configurador.API_PATH + "brouclean/request_device";
+            String URL = Configurador.API_PATH + "request_device/"+Configurador.ID_EMPRESA;
             JSONObject jsonBody = new JSONObject();
 
 
@@ -366,7 +367,8 @@ public class ConfigFragment extends Fragment implements AdapterView.OnItemSelect
         clienteInicial.setNombreCliente("Seleccione un Cliente ...");
         listaDeClientes.add(clienteInicial);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        String mJSONURLString = Configurador.API_PATH + "brouclean/clientes";
+//        String mJSONURLString = Configurador.API_PATH + "brouclean/clientes";
+        String mJSONURLString = Configurador.API_PATH + "clientes/"+Configurador.ID_EMPRESA;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Method.GET,
                 mJSONURLString,

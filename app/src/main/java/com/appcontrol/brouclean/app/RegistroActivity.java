@@ -282,7 +282,8 @@ public class RegistroActivity extends AppCompatActivity {
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String URL = Configurador.API_PATH + "brouclean/register";
+//            String URL = Configurador.API_PATH + "brouclean/register";
+            String URL = Configurador.API_PATH + "register/"+Configurador.ID_EMPRESA;
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("user_codi", persCodi);
             jsonBody.put("user_lega", nroLegajo);
@@ -347,7 +348,8 @@ public class RegistroActivity extends AppCompatActivity {
         String clave = editTextClave.getText().toString();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String mJSONURLString = Configurador.API_PATH + "brouclean/personal/"+nroLegajo;
+//        String mJSONURLString = Configurador.API_PATH + "brouclean/personal/"+nroLegajo;
+        String mJSONURLString = Configurador.API_PATH + "personal/"+nroLegajo+"/"+Configurador.ID_EMPRESA;
         // Initialize a new JsonArrayRequest instance
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,

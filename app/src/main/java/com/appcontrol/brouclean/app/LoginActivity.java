@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
         myAlert = null;
 
-        textViewVersion.setText("Version Release Test "+versionNameApp);
+        textViewVersion.setText("Version "+versionNameApp);
 
         botonIngresar.setOnClickListener(new View.OnClickListener() {
             @Override

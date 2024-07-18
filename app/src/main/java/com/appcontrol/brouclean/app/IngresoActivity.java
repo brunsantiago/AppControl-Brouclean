@@ -511,7 +511,6 @@ public class IngresoActivity extends AppCompatActivity implements AdapterView.On
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-//            String URL = Configurador.API_PATH + "brouclean/asig_brouclean";
             String URL = Configurador.API_PATH + "asigvigi";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("asig_obje", prefs.getInt(ASIG_OBJE,0));
@@ -594,7 +593,6 @@ public class IngresoActivity extends AppCompatActivity implements AdapterView.On
         SharedPreferences prefs = getSharedPreferences("MisPreferencias",MODE_PRIVATE);
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        String URL = Configurador.API_PATH + "brouclean/last_session";
         String URL = Configurador.API_PATH + "last_session/"+Configurador.ID_EMPRESA;
         JSONObject jsonBody = new JSONObject();
 

@@ -158,7 +158,6 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        String mJSONURLString = Configurador.API_PATH + "brouclean/personal/"+nroLegajo;
         String mJSONURLString = Configurador.API_PATH + "personal/"+nroLegajo+"/"+Configurador.ID_EMPRESA;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -217,7 +216,6 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        String mJSONURLString = Configurador.API_PATH + "brouclean/users/"+persCodi;
         String mJSONURLString = Configurador.API_PATH + "users/"+persCodi+"/"+Configurador.ID_EMPRESA;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -254,7 +252,6 @@ public class LoginActivity extends AppCompatActivity {
 
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            //String URL = Configurador.API_PATH + "brouclean/login";
             String URL = Configurador.API_PATH + "login/"+Configurador.ID_EMPRESA;
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("user_lega", nroLegajo);
@@ -390,8 +387,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError error){
                             loadLoginActivity();
                         }
-                    }
-            );
+                    });
             requestQueue.add(jsonObjectRequest);
         }else{
             loadLoginActivity();
@@ -501,7 +497,6 @@ public class LoginActivity extends AppCompatActivity {
     private void checkForUpdates(){
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        //String mJSONURLString = Configurador.API_PATH + "brouclean/app_version/last_version";
         String mJSONURLString = Configurador.API_PATH + "app_version/last_version/"+Configurador.ID_EMPRESA;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,

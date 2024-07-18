@@ -314,7 +314,6 @@ public class HomeFragment extends Fragment implements ResultListener<Date> {
         String persCodi = prefs.getString(PERS_CODI,"");
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        String mJSONURLString = Configurador.API_PATH + "brouclean/last_session/"+persCodi;
         String mJSONURLString = Configurador.API_PATH + "last_session/"+persCodi+"/"+Configurador.ID_EMPRESA;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -423,7 +422,6 @@ public class HomeFragment extends Fragment implements ResultListener<Date> {
 
     private void cerrarEstadoSesion(int persCodi){
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-//        String URL = Configurador.API_PATH + "brouclean/last_session/"+persCodi;
         String URL = Configurador.API_PATH + "last_session/"+persCodi+"/"+Configurador.ID_EMPRESA;
 
 

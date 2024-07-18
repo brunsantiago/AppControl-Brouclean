@@ -19,7 +19,6 @@ public class SolicitudDispositivo {
     private String estado;
     private String nroLinea;
 
-
     public SolicitudDispositivo(){
 
     }
